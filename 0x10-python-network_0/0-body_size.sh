@@ -1,3 +1,3 @@
 #!/bin/bash
-# Get the comtent-lenght of a giving ip address
-curl -sI "$1" | awk '/Content-Length/{print $2}'
+# Get the byte size of the HTTP response header for a given URL.
+curl -s "$1" | wc -c
