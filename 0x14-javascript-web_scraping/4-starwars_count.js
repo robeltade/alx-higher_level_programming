@@ -1,18 +1,12 @@
 #!/usr/bin/node
 const request = require('request');
-const url = process.argv[2];
-
-request(url, function (err, response, body) {
-  if (err) {
-    console.log(err);
+request(process.argv[2], function (error, response, body) {
+  if (!error) {
+    const results = JSON.parse(body).results;
+    console.log(results.reduce((count, movie) => {
+      return movie.characters.find((character) => character.endsWith('/18/'))
+        ? count + 1
+        : count;
+    }, 0));
   }
-  let count = 0;
-  for (const result of JSON.parse(body).results) {
-    for (const wedgeUrl of result.characters) {
-      if (wedgeUrl.includes(18)) {
-        count++;
-      }
-    }
-  }
-  console.log(count);
 });
